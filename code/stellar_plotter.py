@@ -22,7 +22,7 @@ def plot_star(star):
     star_dir_name = "../figures/star_comp-{comp}_Tc-{temp_c}".format(comp = star.composition.file_string,temp_c=star.temp_c)
     # Previous file name
     #star_file_name = "../figures/{prefix}_star_comp-{comp}_Tc-{temp_c}.pdf".format(prefix = "{prefix}", comp = star.composition.file_string, temp_c = star.temp_c)
-    star_file_name = (star_dir_name+"/{prefix}.png").format(prefix="{prefix}")
+    star_file_name = (star_dir_name+"/{prefix}.pdf").format(prefix="{prefix}")
     if not os.path.exists(os.path.dirname(star_file_name)):
         try:
             os.makedirs(os.path.dirname(star_file_name))
@@ -105,7 +105,7 @@ def plot_star(star):
     plt.gca().set_autoscale_on(False)
     for region in convective_regions:
         plt.axvspan(n_r[region[0]], n_r[region[1]], color='gray', alpha=0.4)
-    plt.savefig(star_file_name.format(prefix="stellar_state"), format="png")
+    plt.savefig(star_file_name.format(prefix="stellar_state"), format="pdf")
     # plt.show()
 
     # Plotting pressure decomposition
@@ -120,7 +120,7 @@ def plot_star(star):
     plt.gca().set_autoscale_on(False)
     for region in convective_regions:
         plt.axvspan(n_r[region[0]], n_r[region[1]], color='gray', alpha=0.4)
-    plt.savefig(star_file_name.format(prefix="partial_pressure"), format="png")
+    plt.savefig(star_file_name.format(prefix="partial_pressure"), format="pdf")
     # plt.show()
 
     # Plotting luminosity decomposition
@@ -137,7 +137,7 @@ def plot_star(star):
     plt.gca().set_autoscale_on(False)
     for region in convective_regions:
         plt.axvspan(n_r[region[0]], n_r[region[1]], color='gray', alpha=0.4)
-    plt.savefig(star_file_name.format(prefix="partial_lumin"), format="png")
+    plt.savefig(star_file_name.format(prefix="partial_lumin"), format="pdf")
     # plt.show()
 
     # Plotting opacity decomposition
@@ -154,7 +154,7 @@ def plot_star(star):
     plt.gca().set_autoscale_on(False)
     for region in convective_regions:
         plt.axvspan(n_r[region[0]], n_r[region[1]], color='gray', alpha=0.4)
-    plt.savefig(star_file_name.format(prefix="partial_opacity"), format="png")
+    plt.savefig(star_file_name.format(prefix="partial_opacity"), format="pdf")
     # plt.show()
 
     # Plotting logPlogT
@@ -174,7 +174,7 @@ def plot_star(star):
     plt.gca().set_autoscale_on(False)
     for region in convective_regions:
         plt.axvspan(n_r[region[0]], n_r[region[1]], color='gray', alpha=0.4)
-    plt.savefig(star_file_name.format(prefix="dlogP_dlogT"), format="png")
+    plt.savefig(star_file_name.format(prefix="dlogP_dlogT"), format="pdf")
     # plt.show()
     ## Saving the star specifics
     ## We are targetting :
