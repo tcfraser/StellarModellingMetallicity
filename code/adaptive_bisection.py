@@ -24,11 +24,14 @@ def tween(i, a, b):
 # plt.xlabel(r"Bisection Step")
 # plt.ylabel(r"RKF Precision")
 # plt.plot(i_space, it(i_space, 0.5, 0.01))
-# plt.savefig("../figures/bisection_tween.png", format="png")
+# plt.savefig("../figures/bisection_tween.pdf", format="pdf")
 # plt.show()
 
 def adaptive_bisection(f, a, b, precision=0.001):
     n_max = np.ceil(np.log2(abs(b-a) / precision))
+
+    o_a = a
+    o_b = b
 
     n = 1
     if LOG: printProgress(0, n_max, "Bisection")
@@ -41,8 +44,8 @@ def adaptive_bisection(f, a, b, precision=0.001):
     best_f = None
     best_tol = None
 
-    cs = [a, b]
-    fs = [f_a, f_b]
+    # cs = [a, b]
+    # fs = [f_a, f_b]
     while n <= n_max:
         c = (a + b)/2
         tol = tween(n/n_max, eval_tol_max, eval_tol_min)
@@ -50,8 +53,8 @@ def adaptive_bisection(f, a, b, precision=0.001):
         f_c = f(c, tol)
         # print(c,f_c)
 
-        cs.append(c)
-        fs.append(f_c)
+        # cs.append(c)
+        # fs.append(f_c)
 
         if best_c is None or (abs(f_c) < abs(best_f)):
             best_c = c
@@ -62,9 +65,16 @@ def adaptive_bisection(f, a, b, precision=0.001):
             if LOG: printProgress(n_max, n_max, "Complete")
             # print("Error",  best_f, best_c)
             # plt.figure()
+            # plt.title(r"Error in Luminosity Boundary Condition")
+            # plt.xlabel(r"$\rho_c$")
+            # plt.ylabel(r"$f(\rho_c)$")
+            # plt.plot([o_a,o_b], [0,0])
             # plt.plot(cs, fs, 'ro')
-            # plt.axis([-0.1, 0.1, -100, 100])
-            # plt.gca().set_autoscale_on(False)
+            # plt.gca().set_yscale("log")
+            # plt.gca().set_xscale("log")
+
+            # # plt.gca().axhline(y=0,c="blue",linewidth=0.5,zorder=0)
+            # plt.savefig("../figures/error.pdf", format="pdf")
             # plt.show()
             return (best_c, best_tol)
         if LOG: printProgress(n, n_max, "Bisection")

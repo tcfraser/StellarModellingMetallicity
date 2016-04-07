@@ -62,7 +62,6 @@ class MainSequence():
         num_processes = N_CORES * PROCESSES_PER_CORE
         stars_per_process = np.ceil(self.num_stars / num_processes)
         temp_c_space = np.linspace(start=self.min_core_temp,stop=self.max_core_temp,num=self.num_stars)
-        # print("Solving {n} stars with temp_c_space:".format(n=self.num_stars))
         processes = []
         i = 0
         if LOG: printProgress(0, self.num_stars, "Workers")

@@ -10,6 +10,7 @@ from main_sequence import MainSequence
 from where_positive import where_positive
 import math
 import os
+from main_sequence import star_attributes_to_pickle
 
 # Computer modern fonts
 rc('font', **{'family': 'serif', 'serif': ['Computer Modern']})
@@ -20,8 +21,6 @@ def plot_star(star):
         star.solve()
 
     star_dir_name = "../figures/star_comp-{comp}_Tc-{temp_c}".format(comp = star.composition.file_string,temp_c=star.temp_c)
-    # Previous file name
-    #star_file_name = "../figures/{prefix}_star_comp-{comp}_Tc-{temp_c}.pdf".format(prefix = "{prefix}", comp = star.composition.file_string, temp_c = star.temp_c)
     star_file_name = (star_dir_name+"/{prefix}.pdf").format(prefix="{prefix}")
     if not os.path.exists(os.path.dirname(star_file_name)):
         try:
@@ -185,11 +184,11 @@ def plot_star(star):
     ## 5. Mass
     ## 6. Luminosity
     f = open(star_dir_name+'/profile.txt', 'w')
-    f.write('Surface Temperature = '+ repr(temp_surf) + '\n')
-    f.write('Central Density = '+repr(density_c)+'\n')
-    f.write('Radius = '+repr(r_surf)+'\n')
-    f.write('Mass = '+repr(mass_surf/M_s)+'\n')
-    f.write('Luminosity = '+ repr(lumin_surf) +'\n')
+    for attr in star_attributes_to_pickle:
+        f.write(attr + "=" + repr(getattr(star, attr)) + "\n")
+    for attr in ["temp_c", "temp_surf", "density_c", "r_surf", "lumin_surf", "mass_surf"]:
+            f.write("& $\SI{{{value:.2e}}}{{}}$ ".format(value=getattr(star, attr)))
+
     f.close()
 
 
@@ -294,15 +293,12 @@ if __name__ == "__main__":
     # test_star = Star(temp_c = 3.5e7, composition=Composition.fromXY(0.5, 0.1))
     # test_star = Star(temp_c = 1e8, composition=Composition.fromXY(0.73, 0.25))
     # test_star = Star(temp_c = 3.5e7, composition=Composition.fromXY(0.73, 0.25))
-     test_star1 = Star(temp_c = 8.23e6, composition=Composition.fromXY(0.73, 0.25))
-     test_star2 = Star(temp_c = 8.23e6, composition=Composition.fromXY(0.73, 0.27-0.00001))
-     test_star3 = Star(temp_c = 8.23e6, composition=Composition.fromXY(0.73, 0.17))
+    # test_star = Star(temp_c = 3.5e7, composition=Composition.fromXY(0.73, 0.25))
+    # test_star = Star(temp_c = 8.23e6, composition=Composition.fromZX(1e-8, 0.73))
+    test_star = Star(temp_c = 8.23e6, composition=Composition.fromZX(0.2, 0.73))
 
-    # test_star.solve()
+    test_star.solve()
     # # # test_star.log_raw(b=20)
-    # test_star.log_solved_properties()
+    test_star.log_solved_properties()
 
-   # # # plot_step_sizes(test_star)
-     plot_star(test_star1)
-     plot_star(test_star2)
-     plot_star(test_star3)
+    plot_star(test_star)
